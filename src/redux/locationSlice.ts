@@ -15,7 +15,7 @@ const locationsSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchAllLocationsThunk.fulfilled, (state, action) => {
+      .addCase(fetchAllLocationsThunk.fulfilled, (_state, action) => {
         return action.payload;
       })
       .addCase(fetchAllLocationsThunk.rejected, (state, action) => {
