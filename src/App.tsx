@@ -14,12 +14,13 @@ function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Locations</h1>
-      <ul>
-        {locations.map(location => (
-          <li key={location.id}>{location.name}</li>
-        ))}
-      </ul>
+<select multiple>
+  {locations.map(location => (
+    <option key={location.id} value={location.id}>
+      {location.name}
+    </option>
+  ))}
+</select>
     </>
   );
 }
