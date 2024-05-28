@@ -41,10 +41,11 @@ export default function FilterComponent() {
       setLocationName([defaultLocationName]);
       dispatch(setLocationFilter([defaultLocationName]));
 
-          // Fetch characters based on default filters
-    dispatch(fetchCharacters());
+      // Fetch characters based on default filters
+      dispatch(fetchCharacters());
     }
   }, [locations, dispatch]);
+
   const handleLocationChange = (
     event: SelectChangeEvent<typeof locationName>
   ) => {
@@ -66,54 +67,62 @@ export default function FilterComponent() {
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Location</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={locationName}
-          onChange={handleLocationChange}
-          input={<OutlinedInput label="Tag" />}
-          renderValue={(selected) => selected.join(", ")}
-          MenuProps={MenuProps}
+    <div className="p-4 space-y-2 rounded-md flex flex-col md:flex-row justify-start md:space-y-0">
+      <div className="filter-container">
+        <FormControl sx={{ m: 1, width: 300 }} className="w-full">
+          <InputLabel id="demo-multiple-checkbox-label">Location</InputLabel>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            multiple
+            value={locationName}
+            onChange={handleLocationChange}
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}
+          >
+            {locations.map((location) => (
+              <MenuItem key={location.id} value={location.name}>
+                <Checkbox checked={locationName.indexOf(location.name) > -1} />
+                <ListItemText primary={location.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className="radio-container">
+        <FormControl component="fieldset" className="w-full">
+          <FormLabel component="legend">Status</FormLabel>
+          <RadioGroup
+            row
+            aria-label="status"
+            name="row-radio-buttons-group"
+            value={status}
+            onChange={handleStatusChange}
+          >
+            <FormControlLabel value="" control={<Radio />} label="Any" />
+            <FormControlLabel value="alive" control={<Radio />} label="Alive" />
+            <FormControlLabel value="dead" control={<Radio />} label="Dead" />
+            <FormControlLabel
+              value="unknown"
+              control={<Radio />}
+              label="Unknown"
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+
+      <div className="button-container">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => dispatch(fetchCharacters())}
+          className=" py-2 text-white bg-blue-500 hover:bg-blue-600 md:self-start"
         >
-          {locations.map((location) => (
-            <MenuItem key={location.id} value={location.name}>
-              <Checkbox checked={locationName.indexOf(location.name) > -1} />
-              <ListItemText primary={location.name} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Status</FormLabel>
-        <RadioGroup
-          row
-          aria-label="status"
-          name="row-radio-buttons-group"
-          value={status}
-          onChange={handleStatusChange}
-        >
-          <FormControlLabel value="" control={<Radio />} label="Any" />
-          <FormControlLabel value="alive" control={<Radio />} label="Alive" />
-          <FormControlLabel value="dead" control={<Radio />} label="Dead" />
-          <FormControlLabel
-            value="unknown"
-            control={<Radio />}
-            label="Unknown"
-          />
-        </RadioGroup>
-      </FormControl>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => dispatch(fetchCharacters())}
-      >
-        Fetch Characters
-      </Button>
+          Filter
+        </Button>
+      </div>
     </div>
   );
 }
