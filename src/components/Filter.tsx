@@ -69,22 +69,23 @@ export default function FilterComponent() {
   return (
     <div className="p-4 space-y-2 rounded-md flex flex-col md:flex-row justify-start md:space-y-0">
       <div className="filter-container">
-        <FormControl sx={{ m: 1, width: 300 }} className="w-full">
-          <InputLabel id="demo-multiple-checkbox-label">Location</InputLabel>
+        <FormControl sx={{ m: 1, width: 300, color: 'white' }} className="w-full">
+          <InputLabel id="demo-multiple-checkbox-label" sx={{ color: 'white'  }}>Location</InputLabel>
           <Select
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
             value={locationName}
             onChange={handleLocationChange}
-            input={<OutlinedInput label="Tag" />}
+            input={<OutlinedInput label="Tag" sx={{ color: 'white', '& .MuiOutlinedInput-notchedOutline': { borderColor: 'white', borderWidth: 2 } }} />}
             renderValue={(selected) => selected.join(", ")}
             MenuProps={MenuProps}
+            sx={{ color: 'white' }}
           >
             {locations.map((location) => (
-              <MenuItem key={location.id} value={location.name}>
-                <Checkbox checked={locationName.indexOf(location.name) > -1} />
-                <ListItemText primary={location.name} />
+              <MenuItem key={location.id} value={location.name} sx={{ color: 'black' }}>
+                <Checkbox checked={locationName.indexOf(location.name) > -1} sx={{ color: locationName.indexOf(location.name) > -1 ? 'green' : 'black' }} />
+                <ListItemText primary={location.name} sx={{ color: 'black' }} />
               </MenuItem>
             ))}
           </Select>
@@ -93,7 +94,7 @@ export default function FilterComponent() {
 
       <div className="radio-container">
         <FormControl component="fieldset" className="w-full">
-          <FormLabel component="legend">Status</FormLabel>
+          <FormLabel component="legend" sx={{ color: 'white' }}>Status</FormLabel>
           <RadioGroup
             row
             aria-label="status"
@@ -101,22 +102,23 @@ export default function FilterComponent() {
             value={status}
             onChange={handleStatusChange}
           >
-            <FormControlLabel value="" control={<Radio />} label="Any" />
-            <FormControlLabel value="alive" control={<Radio />} label="Alive" />
-            <FormControlLabel value="dead" control={<Radio />} label="Dead" />
+            <FormControlLabel value="" control={<Radio sx={{ color: 'white' }} />} label="Any" sx={{ color: 'white' }} />
+            <FormControlLabel value="alive" control={<Radio sx={{ color: 'white' }} />} label="Alive" sx={{ color: 'white' }} />
+            <FormControlLabel value="dead" control={<Radio sx={{ color: 'white' }} />} label="Dead" sx={{ color: 'white' }} />
             <FormControlLabel
               value="unknown"
-              control={<Radio />}
+              control={<Radio sx={{ color: 'white' }} />}
               label="Unknown"
+              sx={{ color: 'white' }}
             />
           </RadioGroup>
         </FormControl>
       </div>
 
-      <div className="button-container">
+      <div className="button-container p-4">
         <Button
           variant="contained"
-          color="primary"
+          color="success"
           onClick={() => dispatch(fetchCharacters())}
           className=" py-2 text-white bg-blue-500 hover:bg-blue-600 md:self-start"
         >

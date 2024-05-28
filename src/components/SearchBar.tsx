@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar: React.FC<{ searchTerm: string; setSearchTerm: React.Dispatch<React.SetStateAction<string>> }> = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div className="w-full md:w-1/2 lg:w-1/3 ml-5">
+    <div className="p-4 w-full md:w-1/2 lg:w-1/3 ml-5">
       <TextField
         label="Search by name"
         variant="outlined"
