@@ -8,6 +8,27 @@ interface CharState {
   error: string | null;
 }
 
+interface Character {
+    id: number;
+    name: string;
+    status: string;
+    species: string;
+    type: string;
+    gender: string;
+    origin: {
+      name: string;
+      url: string;
+    };
+    location: {
+      name: string;
+      url: string;
+    };
+    image: string;
+    episode: string[];
+    url: string;
+    created: string;
+  }
+
 const initialState: CharState = {
   characters: [],
   isLoading: false,
@@ -17,11 +38,31 @@ const initialState: CharState = {
 export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (_, { getState }) => {
   const { filters } = getState() as RootState;
   let url = 'https://rickandmortyapi.com/api/character';
-  if (filters.status || filters.locationIds.length > 0) {
-    url += `?status=${filters.status}&location=${filters.locationIds.join(',')}`;
+  if (filters.status) {
+    url += `?status=${filters.status}`;
   }
+
   const response = await axios.get(url);
-  return response.data.results;
+  const totalPages = response.data.info.pages;
+
+  const pagePromises = [];
+  for (let i = 2; i <= totalPages; i++) {
+    pagePromises.push(axios.get(`${url}&page=${i}`));
+  }
+
+  const pageResponses = await Promise.all(pagePromises);
+
+  let characters = response.data.results.concat(
+    ...pageResponses.map(res => res.data.results)
+  );
+
+  if (filters.locationIds.length > 0) {
+    characters = characters.filter((character: Character) => 
+      filters.locationIds.includes(character.location.url.split('/').pop() ?? '')
+    );
+  }
+
+  return characters;
 });
 
 const charsSlice = createSlice({

@@ -45,3 +45,19 @@ export interface Location {
     }
   } 
 
+  // fetcher all characters filtered by status and location
+
+  export async function fetchCharacters(status: string, locationIds: string[]): Promise<any[]> {
+    try {
+      let url = endPoints.chars;
+      if (status || locationIds.length > 0) {
+        url += `?status=${status}&location=${locationIds.join(',')}`;
+      }
+      const response = await client.get(url);
+      return response.data.results;
+    } catch (error) {
+      console.error('Error fetching characters: ', error);
+      return [];
+    }
+  }
+
