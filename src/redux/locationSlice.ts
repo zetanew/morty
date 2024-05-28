@@ -11,7 +11,7 @@ export const fetchAllLocationsThunk = createAsyncThunk(
 
 const locationsSlice = createSlice({
   name: 'locations',
-  initialState: [] as Location[], // baslangicta bosh array lazim
+  initialState: [] as Location[],
   reducers: {},
   extraReducers: builder => {
     builder

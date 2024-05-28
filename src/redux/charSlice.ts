@@ -8,7 +8,7 @@ interface CharState {
   error: string | null;
 }
 
-interface Character {
+export interface Character {
     id: number;
     name: string;
     status: string;
@@ -67,7 +67,7 @@ export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (
       filters.locationIds.includes(character.location.name)
     );
   }
-  console.log(characters)
+  console.log(characters) // filtrelenler  
   return characters;
 });
 

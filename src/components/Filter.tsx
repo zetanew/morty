@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setStatusFilter, setLocationFilter } from "../redux/filterSlice"; // Adjust the path as needed
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -35,6 +35,16 @@ export default function FilterComponent() {
   // Get locations from Redux state
   const locations = useSelector((state: RootState) => state.locations);
 
+  useEffect(() => {
+    if (locations.length > 0) {
+      const defaultLocationName = locations[0].name;
+      setLocationName([defaultLocationName]);
+      dispatch(setLocationFilter([defaultLocationName]));
+
+          // Fetch characters based on default filters
+    dispatch(fetchCharacters());
+    }
+  }, [locations, dispatch]);
   const handleLocationChange = (
     event: SelectChangeEvent<typeof locationName>
   ) => {
