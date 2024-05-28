@@ -78,6 +78,7 @@ export default function FilterComponent() {
       <FormControl component="fieldset">
         <FormLabel component="legend">Status</FormLabel>
         <RadioGroup row aria-label="status" name="row-radio-buttons-group" value={status} onChange={handleStatusChange}>
+        <FormControlLabel value="" control={<Radio defaultChecked />} label="Any" />
           <FormControlLabel value="alive" control={<Radio />} label="Alive" />
           <FormControlLabel value="dead" control={<Radio />} label="Dead" />
           <FormControlLabel value="unknown" control={<Radio />} label="Unknown" />
