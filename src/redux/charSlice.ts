@@ -58,9 +58,13 @@ export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (
     ...pageResponses.map(res => res.data.results)
   );
 
+  // LOKAL FILTRELEME cunku api de filtreleme yok
+
+  console.log('Location IDs filter:', filters.locationIds);
+
   if (filters.locationIds.length > 0) {
     characters = characters.filter((character: Character) => 
-      filters.locationIds.includes(character.location.url.split('/').pop() ?? '')
+      filters.locationIds.includes(character.location.name)
     );
   }
   console.log(characters)
