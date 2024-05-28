@@ -38,8 +38,10 @@ const initialState: CharState = {
 export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (_, { getState }) => {
   const { filters } = getState() as RootState;
   let url = 'https://rickandmortyapi.com/api/character';
+  let hasQuery = false;
   if (filters.status) {
     url += `?status=${filters.status}`;
+    hasQuery = true;
   }
 
   const response = await axios.get(url);
@@ -47,7 +49,7 @@ export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (
 
   const pagePromises = [];
   for (let i = 2; i <= totalPages; i++) {
-    pagePromises.push(axios.get(`${url}&page=${i}`));
+    pagePromises.push(axios.get(`${url}${hasQuery ? '&' : '?'}page=${i}`));
   }
 
   const pageResponses = await Promise.all(pagePromises);
@@ -61,7 +63,7 @@ export const fetchCharacters = createAsyncThunk('chars/fetchCharacters', async (
       filters.locationIds.includes(character.location.url.split('/').pop() ?? '')
     );
   }
-
+  console.log(characters)
   return characters;
 });
 
